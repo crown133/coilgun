@@ -14,6 +14,7 @@
 #include "Control_Loop.h"
 #include "oled.h"
 #include "Motor_Ctrl.h"
+#include "mode.h"
 
 #include "main.h"
 
@@ -25,8 +26,6 @@ void SystemClock_Config(void);
 
 extern kalman_filter_t yaw_kalman_filter, pitch_kalman_filter;
 extern kalman_filter_t yaw_velo_kf;
-
-uint8_t Mode;
 
 int8_t key = -1;
 
@@ -123,7 +122,9 @@ int main(void)
   while (1)
   {
 	adc_get();  //ªÒ»°“°∏À÷µ 0 1 2
-	
+	item_selection();
+	mode_change();
+	  
 	if(key == 1)
 	{
 		PEout(2) = 1;

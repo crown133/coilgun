@@ -58,6 +58,8 @@ void oled_drawline(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, Pen_Typedef p
 void oled_showchar(uint8_t row, uint8_t col, uint8_t chr);
 void oled_shownum(uint8_t row, uint8_t col, uint32_t num, uint8_t mode, uint8_t len);
 void oled_showstring(uint8_t row, uint8_t col, unsigned char *chr);
+void oled_show_invert_string(uint8_t row, uint8_t col, unsigned char *chr);
+
 void oled_printf(uint8_t row, uint8_t col, const char *fmt,...);
 void oled_LOGO(void);
 

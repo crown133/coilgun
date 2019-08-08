@@ -269,6 +269,37 @@ void oled_showchar(uint8_t row, uint8_t col, uint8_t chr)
     }
 }
 
+void oled_show_invert_char(uint8_t row, uint8_t col, uint8_t chr)
+{
+    uint8_t x = col * 6;
+    uint8_t y = row * 12;
+    uint8_t temp, t, t1;
+    uint8_t y0 = y;
+    chr = chr - ' ';
+
+    for (t = 0; t < 12; t++)
+    {
+        temp = asc2_1206[chr][t];
+
+        for (t1 = 0; t1 < 8; t1++)
+        {
+            if (temp&0x80)
+                oled_drawpoint(x, y, Pen_Clear);
+            else
+                oled_drawpoint(x, y, Pen_Write);
+
+            temp <<= 1;
+            y++;
+            if ((y - y0) == 12)
+            {
+                y = y0;
+                x++;
+                break;
+            }
+        }
+    }
+}
+
 //m^n
 static uint32_t oled_pow(uint8_t m, uint8_t n)
 {
@@ -331,6 +362,24 @@ void oled_showstring(uint8_t row, uint8_t col, unsigned char *chr)
     while (chr[n] != '\0')
     {
         oled_showchar(row, col, chr[n]);
+        col++;
+
+        if (col > 20)
+        {
+            col = 0;
+            row += 1;
+        }
+        n++;
+    }
+}
+
+void oled_show_invert_string(uint8_t row, uint8_t col, unsigned char *chr)
+{
+    uint8_t n =0;
+
+    while (chr[n] != '\0')
+    {
+        oled_show_invert_char(row, col, chr[n]);
         col++;
 
         if (col > 20)

@@ -41,4 +41,5 @@ coilgun/main.o: ..\APP\Src\main.c ..\APP\Inc\tim.h \
   D:\MDK5\ARM\ARMCLANG\Bin\..\include\string.h \
   D:\MDK5\ARM\ARMCLANG\Bin\..\include\math.h ..\APP\OLED\oled.h \
   ..\APP\Inc\Motor_Ctrl.h ..\APP\ADRC\adrc.h ..\APP\ADRC\TD4.h \
-  ..\APP\ADRC\ESO.h D:\MDK5\ARM\ARMCLANG\Bin\..\include\stdbool.h
+  ..\APP\ADRC\ESO.h D:\MDK5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
+  ..\APP\GUI\mode.h

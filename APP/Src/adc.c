@@ -178,9 +178,9 @@ void adc_get(void)
 		{
 			if(!CHL_flag)
 			{
-				if(adc_val[0] > 3000)
+				if(adc_val[2] > 3000)
 					CHL = 1;
-				else if(adc_val[0] < 1000)
+				else if(adc_val[2] < 1000)
 					CHL = 2;
 				else 
 					CHL = 0;
@@ -191,7 +191,7 @@ void adc_get(void)
 			}
 			if(CHL_flag)
 			{
-				if(++CHL_flag > 50)
+				if(++CHL_flag > 40)
 					CHL_flag = 0;
 			}
 		}
@@ -212,7 +212,7 @@ void adc_get(void)
 			}
 			if(CHR_flag)
 			{
-				if(++CHR_flag > 50)
+				if(++CHR_flag > 40)
 					CHR_flag = 0;
 			}
 		}
