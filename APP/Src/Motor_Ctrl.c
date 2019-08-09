@@ -31,31 +31,22 @@ void Gimbal_Control(void)
 {
 	/*	0x205  yaw */
 	motorYawCalcuPos(); 				//位置pid计算
-	TD_Calculate(&td1, motorYaw.posCtrl.output);
-//	ADRC_LESO(&eso1, motorYaw.veloCtrl.rawVel);
-//	eso1.u = kp*(td1.v1 - eso1.z1) + kd*(td1.v2 - eso1.z2) - eso1.z3/eso1.b0;
-	
-//	motorYaw.veloCtrl.output = limit_float(eso1.u, -10000, 10000);
-	
-//	TD4_track4(&trackerYaw, motorYaw.posCtrl.output, 1.0f/200);
-//	motorYaw.veloCtrl.refVel = trackerYaw.x1;
-	motorYaw.veloCtrl.refVel = td1.v1;
-	MotorFliter_VeloCtrl(&motorYaw.veloCtrl); //速度pid计算
+//	TD_Calculate(&td1, motorYaw.posCtrl.output);
+	motorYaw.veloCtrl.refVel = motorYaw.posCtrl.output;
+	Motor_VeloCtrl(&motorYaw.veloCtrl); //速度pid计算
 	
 //	ADRC_Control(&ADRC_Yaw, kp, motorYaw.veloCtrl.rawVel);
 //	ADRC_Yaw.u = limit_float(ADRC_Yaw.u, -16000, 16000);
 	
 	/*  pitch	*/
 	motorPitchCalcuPos();  				  //位置pid计算
-	TD_Calculate(&td2, motorPitch.posCtrl.output);	
-//	ADRC_LESO(&eso1, motorPitch.veloCtrl.rawVel);
-//	eso1.u = kp*(td2.v1 - eso1.z1) + kd*(td2.v2 - eso1.z2) - eso1.z3/eso1.b0;
-//	motorPitch.veloCtrl.output = limit_float(eso1.u, -20000, 20000);
 	
+//	TD_Calculate(&td2, motorPitch.posCtrl.output);	
 //	motorPitch.veloCtrl.refVel = td2.v1;  //速度参考值由跟踪微分器给出，来达到安排过渡过程的目的
+	
  	motorPitch.veloCtrl.refVel = motorPitch.posCtrl.output;
-//	Motor_VeloCtrl(&motorPitch.veloCtrl); //速度pid计算
-	motor_pitch_veloCtrl();
+	Motor_VeloCtrl(&motorPitch.veloCtrl); //速度pid计算
+//	motor_pitch_veloCtrl();
 	
 	/*	电机值输出	*/
 	CAN_CMD_GIMBAL(motorYaw.veloCtrl.output, motorPitch.veloCtrl.output, 0, 0);
@@ -152,7 +143,7 @@ void motorPitchCalcuPos(void)
 	
 	// 计算误差值，err保存当前的误差，errLast保存上一次的误差 */
 	motorPitch.posCtrl.errLast = motorPitch.posCtrl.err;
-	motorPitch.posCtrl.err = motorPitch.posCtrl.refPos - motorPitch.posCtrl.rawPos;
+	motorPitch.posCtrl.err = motorPitch.posCtrl.refPos - motorPitch.posCtrl.relaPos;
 	{	
 		// 计算积分值，注意末尾积分限幅 
 		motorPitch.posCtrl.integ += motorPitch.posCtrl.err;

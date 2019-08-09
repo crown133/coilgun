@@ -28,6 +28,7 @@ extern kalman_filter_t yaw_kalman_filter, pitch_kalman_filter;
 extern kalman_filter_t yaw_velo_kf;
 
 int8_t key = -1;
+uint8_t gimbal_init_flag = 1;  //云台位置初始化
 
 int main(void)
 {
@@ -55,22 +56,23 @@ int main(void)
   MX_ADC1_Init();  //摇杆值，电容电压值
   
   SysNVIC_SetPriority();  //统一在此设置优先级
-  
-  delay_ms(500);
-  
+  delay_ms(100);
+
+  Motor_IncPos(&(motorPitch.posCtrl), 6800, 6800, -100); //初始位置
+  Motor_IncPos(&(motorYaw.posCtrl), 690, 6800, -685); 
   /*********** Motor init position ***********/
-  Motor_IncPos(&(motorPitch.posCtrl), 2700, 5000, 2000); //初始位置等于上电位置
-  Motor_IncPos(&(motorYaw.posCtrl), 2200, 2200+685, 2200-685); 
+
   
   /********** motor control value set **********/  
   
-  Motor_ValueSet(&motorPitch, 6, 0.05, 20, 20000, -20000, 3, \
-		0.01, 20, 900, -900, DISABLE);  				 //Pitch轴电机
+  Motor_ValueSet(&motorPitch, 30, 0.2, 0, 25000, -25000, 2.5, \
+		0, 0.5, 900, -900, DISABLE);  				 //Pitch轴电机
 		
-  Motor_ValueSet(&motorYaw, 5, 0.1, 0, 20000, -20000, 2, \
-		0, 0.02, 600, -600, DISABLE);  //Yaw轴电机
+//  Motor_ValueSet(&motorYaw, 5, 0.1, 0, 20000, -20000, 2, \
+//		0, 0.02, 600, -600, DISABLE);  //Yaw轴电机
   
-
+  Motor_ValueSet(&motorYaw, 30, 0.2, 0, 20000, -20000, 2.5, \
+		0, 1, 600, -600, DISABLE);  //Yaw轴电机
 /********** Various Filters Init *************/
   TD_Init(&td1, 800, 0.06, 10);
   TD_Init(&td2, 500, 0.05, 2);
@@ -106,12 +108,11 @@ int main(void)
   kalman_filter_init(&yaw_velo_kf, &pitch_kalman_filter_para);
 						
 /***********************************************/
-
-  delay_ms(500);
+  delay_ms(100);
   
   HAL_TIM_Base_Start_IT(&htim3);  //开启中断
   
-  delay_ms(500);
+  delay_ms(100);
   PBout(9) = 1;	  //led light
 						
   oled_clear(Pen_Clear);		
@@ -121,15 +122,25 @@ int main(void)
   delay_ms(500);
   while (1)
   {
+	if((abs(motorYaw.posCtrl.rawPos - motorYaw.posCtrl.refPos) < 50) && (abs(motorPitch.posCtrl.rawPos - motorPitch.posCtrl.refPos) < 50) && gimbal_init_flag) //电机模式切换
+	{
+		gimbal_init_flag = 0;
+		motorPitch.posCtrl.motorBias = motorPitch.posCtrl.rawPos;
+		motorYaw.posCtrl.motorBias = motorYaw.posCtrl.rawPos;
+		  
+		Motor_IncPos(&(motorPitch.posCtrl), 0, 1000, -100); //初始位置
+		Motor_IncPos(&(motorYaw.posCtrl), 0, 690, -690);   //对应 +-30° 稍微留了一些余量
+		motorPitch.posCtrl.refPos = 0;
+		motorYaw.posCtrl.refPos = 0;		
+	}
+	
 	adc_get();  //获取摇杆值 0 1 2
 	item_selection();
 	mode_change();
 	  
-//	if(key == 1)
-//	{
-//		PEout(2) = 1;
-//		key = 0;
-//	}
+
+//	PEout(2) = 1;  //继电器开
+
 
 
   	oled_refresh_gram();  //OLED 

@@ -21,6 +21,7 @@ extern void _Error_Handler(char *, int);
 extern void MX_ADC1_Init(void);
 extern void ADC_Filter(uint32_t* adc_val);
 extern void adc_get(void);
+extern float voltage_get(void);
 
 
 #ifdef __cplusplus

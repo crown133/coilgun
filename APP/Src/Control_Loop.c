@@ -4,7 +4,7 @@
 #include "Pc_Uart.h"
 #include "usart.h"
 #include "delay.h"
-
+#include "mode.h"
 #include "sys.h"
 
 #define Yaw_Limit(x, num)	( (x) < (num) ? (1) : (0) )
@@ -22,12 +22,11 @@ kalman_filter_t yaw_velo_kf;
 /*********************************/
 void sysControl(void)
 {
-	
 	{			
 		/*************** 视觉相关 *************/
 		{	
-			TD_Calculate(&tdYawPc, yawInc);
-			TD_Calculate(&tdPitchPc, pitchInc);
+//			TD_Calculate(&tdYawPc, yawInc);
+//			TD_Calculate(&tdPitchPc, pitchInc);
 //				TD4_track4(&trackerYawInc, yawInc, 1.0f/200);
 //				ESO_AngularRate_run(&eso2, yawInc, 1.0f/200);
 //				eso2.z2 = 0;
@@ -37,20 +36,13 @@ void sysControl(void)
 //				kalman_filter_calc(&pitch_kalman_filter, pitchInc, 0);
 //				Motor_AbsPos(&motorYaw.posCtrl, -yaw_kalman_filter.filtered_value[0] * kf0 - tdYawPc.v2 * kf1 + motorYaw.veloCtrl.filrawVel * sum, 360, -360);
 //				Motor_AbsPos(&motorPitch.posCtrl, -pitch_kalman_filter.filtered_value[0] * kf2 - tdPitchPc.v2 * kf3, 12, -40);
-			Motor_AbsPos(&motorYaw.posCtrl, -yawInc * kf0 - tdYawPc.v2 * kf1 + motorYaw.veloCtrl.filrawVel * sum, 60, -100);
-			Motor_AbsPos(&motorPitch.posCtrl, -pitchInc * kf2 - tdPitchPc.v2 * kf3 + motorPitch.veloCtrl.rawVel * sum1, 12, -40);
+//			Motor_IncPos(&motorYaw.posCtrl, -yawInc * kf0 - tdYawPc.v2 * kf1 + motorYaw.veloCtrl.filrawVel * sum, 685, -685);
+//			Motor_IncPos(&motorPitch.posCtrl, -pitchInc * kf2 - tdPitchPc.v2 * kf3 + motorPitch.veloCtrl.rawVel * sum1, 1000, -100);
 		}
 		
-		{
-			/************* Yaw Axis Pos Change ************/
-			Motor_AbsPos(&(motorYaw.posCtrl), yawPos, 7000, 2000);
-
-			/************* Pitch Axis Pos Change ************/
-			Motor_AbsPos(&(motorPitch.posCtrl), pitchPos, 7000, 500);
-		}
-
-		
-//		Gimbal_Control();  //电机控制函数
+//	Motor_IncPos(&(motorYaw.posCtrl), 0, 690, -690);   //对应 +-30° 稍微留了一些余量
+		fire_fire();
+		Gimbal_Control();  //电机控制函数
 	}
 	
 }

@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx,ARM_MATH_CM4</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\APP\Inc;..\System\delay;..\System\sys;..\APP\ADRC;..\APP\OLED;..\APP\GUI</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\APP\Inc;..\System\delay;..\System\sys;..\APP\ADRC;..\APP\OLED;..\APP\GUI;..\APP\FlyCalc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -592,6 +592,11 @@
               <FileName>mode.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\APP\GUI\mode.c</FilePath>
+            </File>
+            <File>
+              <FileName>interp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\FlyCalc\interp.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -129,9 +129,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
   if(adcHandle->Instance==ADC1)
   {
-  /* USER CODE BEGIN ADC1_MspDeInit 0 */
 
-  /* USER CODE END ADC1_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_ADC1_CLK_DISABLE();
   
@@ -166,9 +164,14 @@ void ADC_Filter(uint32_t* adc_val)
 		sum[2]+=adc_buf[CH_Num*i+2];
 
 	}
-	adc_val[0]=sum[0]/ADC_SAMPLE_NUM;  //CHL
+	adc_val[0]=sum[0]/ADC_SAMPLE_NUM;  //Voltage
 	adc_val[1]=sum[1]/ADC_SAMPLE_NUM;  //CHR
-	adc_val[2]=sum[2]/ADC_SAMPLE_NUM;  //Voltage
+	adc_val[2]=sum[2]/ADC_SAMPLE_NUM;  //CHL
+}
+
+float voltage_get(void)
+{
+	return (float)adc_val[0]*0.07654;
 }
 
 void adc_get(void)
@@ -178,9 +181,9 @@ void adc_get(void)
 		{
 			if(!CHL_flag)
 			{
-				if(adc_val[2] > 3000)
+				if(adc_val[2] > 3500)
 					CHL = 1;
-				else if(adc_val[2] < 1000)
+				else if(adc_val[2] < 500)
 					CHL = 2;
 				else 
 					CHL = 0;
@@ -199,9 +202,9 @@ void adc_get(void)
 		{
 			if(!CHR_flag)
 			{
-				if(adc_val[1] > 3000)
+				if(adc_val[1] > 3500)
 					CHR = 1;
-				else if(adc_val[1] < 1000)
+				else if(adc_val[1] < 500)
 					CHR = 2;
 				else 
 					CHR = 0; 

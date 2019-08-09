@@ -1,7 +1,6 @@
 #include "Can_Ctrl.h"
 #include "Motor_Ctrl.h"
 
-uint8_t init_flag = 0;
 
 /**
   *	@brief	receive callback function
@@ -55,7 +54,8 @@ void CAN_MotorRxMsgConv(CAN_HandleTypeDef *hcan, Motor_t *motor)
 {
 	motor->posCtrl.rawPosLast = motor->posCtrl.rawPos;
 	motor->posCtrl.rawPos = (int16_t)(hcan->pRxMsg->Data[0] << 8 | hcan->pRxMsg->Data[1]);  //实际位置
-	if(init_flag)
+
+	if(motor->status)
 	{
 		if((motor->posCtrl.rawPos - motor->posCtrl.rawPosLast) > 5000) 
 		{
@@ -66,8 +66,8 @@ void CAN_MotorRxMsgConv(CAN_HandleTypeDef *hcan, Motor_t *motor)
 			motor->posCtrl.round++;
 		}
 	}
-	init_flag = 1;
-	motor->posCtrl.relaPos = motor->posCtrl.round*8192 + motor->posCtrl.rawPos;
+	motor->status = 1;
+	motor->posCtrl.relaPos = motor->posCtrl.round*8192 + motor->posCtrl.rawPos - motor->posCtrl.motorBias;
 	
 	motor->veloCtrl.rawVel = (int16_t)(hcan->pRxMsg->Data[2] << 8 | hcan->pRxMsg->Data[3]);//实际速度
 	motor->posCtrl.motorPos = (int16_t)(hcan->pRxMsg->Data[0] << 8 | hcan->pRxMsg->Data[1]);  //实际位置

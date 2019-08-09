@@ -37,6 +37,7 @@
 "coilgun\adrc.o"
 "coilgun\oled.o"
 "coilgun\mode.o"
+"coilgun\interp.o"
 "coilgun\delay.o"
 "coilgun\sys.o"
 --strict --scatter "coilgun\coilgun.sct"

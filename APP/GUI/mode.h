@@ -1,7 +1,11 @@
 #ifndef __MODE_H_
 #define __MODE_H_
 
-typedef enum
+#include "sys.h"
+
+
+/********* 各种状态标志位定义 **********/
+typedef enum  //模式切换标志位
 {
 	fire_mode		  = 1,
 	dist_mode 		  = 2,
@@ -11,18 +15,20 @@ typedef enum
 	track_mode 	  = 6
 } Mode;
 
-typedef enum
+typedef enum    //菜单内容
 {
 	mode = 1,
 	dist = 2,
 	fire = 3,
 	reload =4	
-} Item;
+} Item;		
+
 
 extern void menu_init(void);
 
 extern void mode_change(void);
 extern void item_selection(void);
+extern void fire_fire(void);
 
 #endif
 

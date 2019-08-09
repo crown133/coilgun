@@ -1,4 +1,4 @@
-coilgun/mode.o: ..\APP\GUI\mode.c ..\APP\GUI\mode.h ..\APP\OLED\oled.h \
+coilgun/mode.o: ..\APP\GUI\mode.c ..\APP\GUI\mode.h ..\System\sys\sys.h \
   ..\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h \
   ..\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f407xx.h \
   ..\Drivers\CMSIS\Include\core_cm4.h \
@@ -9,7 +9,7 @@ coilgun/mode.o: ..\APP\GUI\mode.c ..\APP\GUI\mode.h ..\APP\OLED\oled.h \
   ..\Drivers\CMSIS\Include\core_cmSimd.h \
   ..\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h \
-  ..\APP\Inc\stm32f4xx_hal_conf.h ..\APP\Inc\main.h ..\System\sys\sys.h \
+  ..\APP\Inc\stm32f4xx_hal_conf.h ..\APP\Inc\main.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_def.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy\stm32_hal_legacy.h \
@@ -33,4 +33,7 @@ coilgun/mode.o: ..\APP\GUI\mode.c ..\APP\GUI\mode.h ..\APP\OLED\oled.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_tim_ex.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_uart.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_usart.h \
-  ..\APP\Inc\spi.h ..\APP\Inc\adc.h
+  ..\APP\OLED\oled.h ..\APP\Inc\spi.h ..\APP\Inc\adc.h \
+  ..\APP\Inc\Motor_Ctrl.h ..\APP\ADRC\adrc.h ..\APP\ADRC\TD4.h \
+  ..\APP\ADRC\ESO.h D:\MDK5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
+  D:\MDK5\ARM\ARMCLANG\Bin\..\include\math.h

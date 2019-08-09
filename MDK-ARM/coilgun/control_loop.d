@@ -41,4 +41,4 @@ coilgun/control_loop.o: ..\APP\Src\Control_Loop.c \
   ..\APP\ADRC\adrc.h ..\APP\ADRC\TD4.h ..\APP\ADRC\ESO.h \
   D:\MDK5\ARM\ARMCLANG\Bin\..\include\stdbool.h ..\APP\Inc\Can_Ctrl.h \
   ..\APP\Inc\can.h ..\APP\Inc\Motor_Ctrl.h ..\APP\Inc\Pc_Uart.h \
-  ..\APP\Inc\usart.h ..\System\delay\delay.h
+  ..\APP\Inc\usart.h ..\System\delay\delay.h ..\APP\GUI\mode.h
