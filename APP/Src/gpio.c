@@ -73,7 +73,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   {
 	  if((HAL_GetTick() - key_flag > 500))
 	  {
-		  key = -key;
+		  key = 1;
 	  }
 	  key_flag = HAL_GetTick();
   }

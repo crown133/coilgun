@@ -125,14 +125,12 @@ int main(void)
 	item_selection();
 	mode_change();
 	  
-	if(key == 1)
-	{
-		PEout(2) = 1;
-	}
-	else
-	{
-		PEout(2) = 0;
-	}
+//	if(key == 1)
+//	{
+//		PEout(2) = 1;
+//		key = 0;
+//	}
+
 
   	oled_refresh_gram();  //OLED 
   }

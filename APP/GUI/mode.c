@@ -2,6 +2,9 @@
 #include "oled.h"
 #include "adc.h"
 
+#define limit_num(x, min, max)	( (x) <= (min) ? (min) : (x) >= (max) ? (max) : (x) )//限幅函数
+ 
+
 uint8_t first_menu = 1;
 uint8_t second_menu;
 
@@ -16,7 +19,7 @@ void menu_init(void)
 	oled_showstring(3, 0, "Reload:");
 }
 
-void mode_change(void)
+void mode_change(void)   //模式切换
 {
 	if(first_menu == 1)
 	{
@@ -84,7 +87,58 @@ void mode_change(void)
 	
 }
 
-void item_selection(void)
+void dist_set(void)   //距离设置
+{
+	static uint16_t distance = 200;
+	if(first_menu == dist)
+	{
+		if(((GPIOE->IDR >> 9) & 0x01) == 0)  //key 是 PE9
+		{
+			if(CHR  == 1)
+			{
+				distance -=10;
+			}
+			else if(CHR == 2)
+			{
+				distance += 10;
+			}
+			CHR = 0;
+		}
+		else
+		{
+			if(CHR  == 1)
+			{
+				distance -=1;
+				CHR = 0;
+			}
+			else if(CHR == 2)
+			{
+				distance += 1;
+				CHR = 0;
+			}
+		}
+		distance = limit_num(distance, 0, 450);			
+	}
+	oled_shownum(1, 6, distance, 0, 8);
+}
+
+void reload_enter(void)
+{
+	if(first_menu == reload)
+	{
+		if(key == 1)
+		{
+			oled_showstring(3, 7, "reloading ...");
+			key = 0;
+		}
+	}
+	else 
+	{
+			oled_showstring(3, 7, "  loaded     ");
+	}
+}
+
+void item_selection(void)  //主切换程序
 {
 	if(CHL == 1)
 	{
@@ -109,6 +163,8 @@ void item_selection(void)
 	{
 		case mode:
 		{
+			mode_change();
+			
 			oled_show_invert_string(0, 0, "Mode");
 			oled_showstring(1, 0, "Dist:");
 			oled_showstring(2, 0, "Fire:");
@@ -117,6 +173,7 @@ void item_selection(void)
 		}
 		case dist:
 		{
+			dist_set();
 			oled_showstring(0, 0, "Mode:");
 			oled_showstring(2, 0, "Fire:");
 			oled_showstring(3, 0, "Reload:");
@@ -143,5 +200,10 @@ void item_selection(void)
 		default:
 			break;
 	}
+	reload_enter();  //装填
+	key = 0;
 }
+
+
+
 

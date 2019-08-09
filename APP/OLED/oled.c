@@ -355,7 +355,7 @@ void oled_shownum(uint8_t row, uint8_t col, uint32_t num, uint8_t mode, uint8_t 
  * @param   chr: the pointer to character string
  * @retval  None
  */
-void oled_showstring(uint8_t row, uint8_t col, unsigned char *chr)
+void oled_showstring(uint8_t row, uint8_t col, char *chr)
 {
     uint8_t n =0;
 
@@ -373,7 +373,7 @@ void oled_showstring(uint8_t row, uint8_t col, unsigned char *chr)
     }
 }
 
-void oled_show_invert_string(uint8_t row, uint8_t col, unsigned char *chr)
+void oled_show_invert_string(uint8_t row, uint8_t col, char *chr)
 {
     uint8_t n =0;
 
